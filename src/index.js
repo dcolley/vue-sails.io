@@ -2,12 +2,17 @@ import sailsIO from 'sails.io.js'
 import socketIO from 'socket.io-client'
 
 export default {
-	install(Vue, connection) {
+	install(Vue, connection, config) {
 
 		var _this
 
 		const io     = sailsIO(socketIO)
 		io.sails.url = connection
+		if(config) {
+			for(var c in config) {
+				io.sails[c] = config[c]
+			}
+		}
 
 		Vue.prototype.$sails = io
 		Vue.prototype.$sails.listeners = []
